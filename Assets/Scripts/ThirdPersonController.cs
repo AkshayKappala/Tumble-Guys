@@ -21,6 +21,8 @@ public class ThirdPersonController : MonoBehaviour
     [SerializeField]
     private Transform playerFeet;
 
+    private bool isReadyForDoubleJump = false;
+
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -90,8 +92,13 @@ public class ThirdPersonController : MonoBehaviour
         if (IsGrounded())
         {
             forceDirection = Vector3.up * jumpForce;
+            isReadyForDoubleJump = true;
         }
-
+        else if(isReadyForDoubleJump)
+        {
+            forceDirection = Vector3.up * jumpForce;
+            isReadyForDoubleJump = false;
+        }
     }
 
     private bool IsGrounded()
