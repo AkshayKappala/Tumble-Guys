@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,6 +25,8 @@ public class ThirdPersonController : MonoBehaviour
     [SerializeField]
     private float maxSpeed = 5f;
     private Vector3 forceDirection = Vector3.zero;
+    [SerializeField]
+    private float downwardGravityBias = 1f;
 
     //State fields
     [Header("State Values:")]
@@ -35,6 +38,11 @@ public class ThirdPersonController : MonoBehaviour
     public CharacterState characterState = CharacterState.Idle;
     [ReadOnly]
     public float horizontalSpeed = 0;
+
+    //Action Events
+    public event Action JumpStarted;
+    public event Action DoubleJumpStarted;
+
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -43,13 +51,13 @@ public class ThirdPersonController : MonoBehaviour
     }
     private void OnEnable()
     {
-        playerActionsAsset.Player.Jump.started += DoJump;
+        playerActionsAsset.Player.Jump.started += doJump;
         move = playerActionsAsset.Player.Move;
         playerActionsAsset.Player.Enable();
     }
     private void OnDisable()
     {
-        playerActionsAsset.Player.Jump.started -= DoJump;
+        playerActionsAsset.Player.Jump.started -= doJump;
         playerActionsAsset.Player.Disable();
     }
     private void Update()
@@ -70,7 +78,7 @@ public class ThirdPersonController : MonoBehaviour
 
         //if falling increase falling velocity (to make jumping less floaty)
         if (rb.velocity.y < 0f)
-            rb.velocity -= Vector3.down * Physics.gravity.y * Time.fixedDeltaTime;
+            rb.velocity -= Vector3.down * Physics.gravity.y * Time.fixedDeltaTime * downwardGravityBias;
 
         //cap horizontal velocity to max speed
         capHorizontalSpeed();
@@ -110,17 +118,19 @@ public class ThirdPersonController : MonoBehaviour
         right.y = 0;
         return right.normalized;
     }
-    private void DoJump(InputAction.CallbackContext obj)
+    private void doJump(InputAction.CallbackContext obj)
     {
         if (isGrounded)
         {
             forceDirection = Vector3.up * jumpForce;
             isReadyForDoubleJump = true;
+            JumpStarted();
         }
-        else if (isReadyForDoubleJump)
+        else if (isReadyForDoubleJump && horizontalSpeed >= maxSpeed * 0.75f)
         {
-            forceDirection = Vector3.up * jumpForce;
+            forceDirection = Vector3.up * jumpForce * 0.8f;
             isReadyForDoubleJump = false;
+            DoubleJumpStarted();
         }
     }
 
