@@ -70,9 +70,9 @@ public class ThirdPersonController : MonoBehaviour
     }
     private void Update()
     {
-        //raycasting from feet to check whether the player is grounded
-        Ray ray = new Ray(playerFeet.position + Vector3.up * 0.25f, Vector3.down);
-        isGrounded = Physics.Raycast(ray, out RaycastHit hit, 0.3f, 384);
+        //sphere casting from feet to check whether the player is grounded
+        Ray ray = new Ray(playerFeet.position + Vector3.up * 0.4f, Vector3.down);
+        isGrounded = Physics.SphereCast(ray, 0.2f, 0.25f, 384);
     }
     private void FixedUpdate()
     {
