@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 0cbde31b48f23c9468fa2581bf2fd34a
+guid: bba5f9085051611418b7613b90a949ee
 ModelImporter:
   serializedVersion: 22103
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Breathing Idle
+    second: Male Standing Pose
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -36,11 +36,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Breathing Idle
+      name: Male Standing Pose
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 298
+      lastFrame: 1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
