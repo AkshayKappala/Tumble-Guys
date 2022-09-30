@@ -30,13 +30,21 @@ public class ThirdPersonController : MonoBehaviour
 
     //State fields
     [Header("State Values:")]
+#if UNITY_EDITOR
     [ReadOnly]
+#endif
     public bool isGrounded = true;
+#if UNITY_EDITOR
     [ReadOnly]
+#endif
     public bool isReadyForDoubleJump = false;
+#if UNITY_EDITOR
     [ReadOnly]
+#endif
     public CharacterState characterState = CharacterState.Idle;
+#if UNITY_EDITOR
     [ReadOnly]
+#endif
     public float horizontalSpeed = 0;
 
     //Action Events
