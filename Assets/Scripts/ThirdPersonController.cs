@@ -1,8 +1,9 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ThirdPersonController : MonoBehaviour
+public class ThirdPersonController : NetworkBehaviour
 {
     //input fields
     private ThirdPersonActionsAsset playerActionsAsset;
@@ -10,8 +11,9 @@ public class ThirdPersonController : MonoBehaviour
 
     //references
     [Header("References:")]
+    private Camera mainCamera;
     [SerializeField]
-    private Camera playerCamera;
+    private GameObject playerCamera;
     [SerializeField]
     private Transform playerFeet;
 
@@ -29,22 +31,10 @@ public class ThirdPersonController : MonoBehaviour
     private float downwardGravityBias = 1f;
 
     //State fields
-    [Header("State Values:")]
-#if UNITY_EDITOR
-    [ReadOnly]
-#endif
+    [Header("State Values (Do not modify):")]
     public bool isGrounded = true;
-#if UNITY_EDITOR
-    [ReadOnly]
-#endif
     public bool isReadyForDoubleJump = false;
-#if UNITY_EDITOR
-    [ReadOnly]
-#endif
     public CharacterState characterState = CharacterState.Idle;
-#if UNITY_EDITOR
-    [ReadOnly]
-#endif
     public float horizontalSpeed = 0;
 
     //Action Events
@@ -56,31 +46,36 @@ public class ThirdPersonController : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
         playerActionsAsset = new ThirdPersonActionsAsset();
     }
-    private void OnEnable()
+    public override void OnNetworkSpawn()
     {
+        if (!IsOwner) return;
         Cursor.lockState = CursorLockMode.Locked;
-        playerCamera = Camera.main;
+        mainCamera = Camera.main;
+        playerCamera.SetActive(true);
         playerActionsAsset.Player.Jump.started += doJump;
         move = playerActionsAsset.Player.Move;
         playerActionsAsset.Player.Enable();
     }
-    private void OnDisable()
+    public override void OnNetworkDespawn()
     {
+        if (!IsOwner) return;
         Cursor.lockState = CursorLockMode.Locked;
         playerActionsAsset.Player.Jump.started -= doJump;
         playerActionsAsset.Player.Disable();
     }
     private void Update()
     {
+        if (!IsOwner) return;
         //sphere casting from feet to check whether the player is grounded
         Ray ray = new Ray(playerFeet.position + Vector3.up * 0.4f, Vector3.down);
         isGrounded = Physics.SphereCast(ray, 0.2f, 0.25f, 384);
     }
     private void FixedUpdate()
     {
+        if (!IsOwner) return;
         //add force towards input direction
-        forceDirection += move.ReadValue<Vector2>().x * movementForce * getCameraRight(playerCamera);
-        forceDirection += move.ReadValue<Vector2>().y * movementForce * getCameraForward(playerCamera);
+        forceDirection += move.ReadValue<Vector2>().x * movementForce * getCameraRight(mainCamera);
+        forceDirection += move.ReadValue<Vector2>().y * movementForce * getCameraForward(mainCamera);
         rb.AddForce(forceDirection, ForceMode.Impulse);
 
         //zero force after every impulse
