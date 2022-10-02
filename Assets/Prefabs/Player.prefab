@@ -798,6 +798,7 @@ GameObject:
   - component: {fileID: 1075150551765161884}
   - component: {fileID: 1075150551765161881}
   - component: {fileID: 1075150551765161874}
+  - component: {fileID: 6353065843811823980}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -821,7 +822,7 @@ Transform:
   - {fileID: 1075150549737935101}
   - {fileID: 3451672540519448933}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1075150551765161885
 Rigidbody:
@@ -889,6 +890,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ThirdPersonController: {fileID: 1075150551765161881}
   modelAnimator: {fileID: 2912831281829815945}
+--- !u!114 &6353065843811823980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075150551765161882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &2912831281829815950
 PrefabInstance:
   m_ObjectHideFlags: 0

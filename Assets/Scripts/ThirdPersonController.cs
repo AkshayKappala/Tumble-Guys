@@ -53,18 +53,20 @@ public class ThirdPersonController : MonoBehaviour
 
     private void Awake()
     {
-        Cursor.lockState = CursorLockMode.Locked;
         rb = this.GetComponent<Rigidbody>();
         playerActionsAsset = new ThirdPersonActionsAsset();
     }
     private void OnEnable()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        playerCamera = Camera.main;
         playerActionsAsset.Player.Jump.started += doJump;
         move = playerActionsAsset.Player.Move;
         playerActionsAsset.Player.Enable();
     }
     private void OnDisable()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         playerActionsAsset.Player.Jump.started -= doJump;
         playerActionsAsset.Player.Disable();
     }
