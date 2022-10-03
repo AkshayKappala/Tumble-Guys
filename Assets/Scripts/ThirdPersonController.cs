@@ -59,7 +59,6 @@ public class ThirdPersonController : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         if (!IsOwner) return;
-        Cursor.lockState = CursorLockMode.Locked;
         playerActionsAsset.Player.Jump.started -= doJump;
         playerActionsAsset.Player.Disable();
     }
@@ -69,6 +68,9 @@ public class ThirdPersonController : NetworkBehaviour
         //sphere casting from feet to check whether the player is grounded
         Ray ray = new Ray(playerFeet.position + Vector3.up * 0.4f, Vector3.down);
         isGrounded = Physics.SphereCast(ray, 0.2f, 0.25f, 384);
+        
+        //enable cursor if control is held
+        Cursor.lockState = playerActionsAsset.Player.FreeCursor.ReadValue<float>() > 0.1f ? CursorLockMode.None : CursorLockMode.Locked;
     }
     private void FixedUpdate()
     {
@@ -138,7 +140,7 @@ public class ThirdPersonController : NetworkBehaviour
             DoubleJumpStarted();
         }
     }
-
+  
     public float GetMaxSpeed()
     {
         return maxSpeed;
