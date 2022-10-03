@@ -132,51 +132,39 @@ public class ThirdPersonController : NetworkBehaviour
             forceDirection = Vector3.up * jumpForce;
             isReadyForDoubleJump = true;
 
-            if (!IsHost)
-            {
+            doJumpServerRpc();
+            if (IsOwner)
                 JumpStarted();
-                doJumpServerRpc();
-            }
-            else
-            {
-                doJumpClientRpc();
-            }
         }
         else if (isReadyForDoubleJump && horizontalSpeed >= maxSpeed * 0.75f)
         {
             forceDirection = Vector3.up * jumpForce * 0.8f;
             isReadyForDoubleJump = false;
 
-            if (!IsHost)
-            {
+            doDoubleJumpServerRpc();
+            if (IsOwner)
                 DoubleJumpStarted();
-                doDoubleJumpServerRpc();
-            }
-            else
-            {
-                doDoubleJumpClientRpc();
-            }
         }
     }
     [ServerRpc]
     public void doJumpServerRpc()
     {
-        JumpStarted();
+        doJumpClientRpc();
     }
     [ServerRpc]
     public void doDoubleJumpServerRpc()
     {
-        DoubleJumpStarted();
+        doDoubleJumpClientRpc();
     }
     [ClientRpc]
     public void doJumpClientRpc()
     {
-        JumpStarted();
+        if (!IsOwner) JumpStarted();
     }
     [ClientRpc]
     public void doDoubleJumpClientRpc()
     {
-        DoubleJumpStarted();
+        if (!IsOwner) DoubleJumpStarted();
     }
     public float GetMaxSpeed()
     {

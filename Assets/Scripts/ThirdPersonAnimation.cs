@@ -34,6 +34,5 @@ public class ThirdPersonAnimation : NetworkBehaviour
     void handleDoubleJump()
     {
         modelAnimator.SetTrigger("doubleJumpGo");
-        Debug.Log("Double Jump called");
     }
 }
