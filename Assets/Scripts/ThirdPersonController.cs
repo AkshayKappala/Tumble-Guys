@@ -68,7 +68,7 @@ public class ThirdPersonController : NetworkBehaviour
         //sphere casting from feet to check whether the player is grounded
         Ray ray = new Ray(playerFeet.position + Vector3.up * 0.4f, Vector3.down);
         isGrounded = Physics.SphereCast(ray, 0.2f, 0.25f, 384);
-        
+
         //enable cursor if control is held
         Cursor.lockState = playerActionsAsset.Player.FreeCursor.ReadValue<float>() > 0.1f ? CursorLockMode.None : CursorLockMode.Locked;
     }
@@ -131,16 +131,53 @@ public class ThirdPersonController : NetworkBehaviour
         {
             forceDirection = Vector3.up * jumpForce;
             isReadyForDoubleJump = true;
-            JumpStarted();
+
+            if (!IsHost)
+            {
+                JumpStarted();
+                doJumpServerRpc();
+            }
+            else
+            {
+                doJumpClientRpc();
+            }
         }
         else if (isReadyForDoubleJump && horizontalSpeed >= maxSpeed * 0.75f)
         {
             forceDirection = Vector3.up * jumpForce * 0.8f;
             isReadyForDoubleJump = false;
-            DoubleJumpStarted();
+
+            if (!IsHost)
+            {
+                DoubleJumpStarted();
+                doDoubleJumpServerRpc();
+            }
+            else
+            {
+                doDoubleJumpClientRpc();
+            }
         }
     }
-  
+    [ServerRpc]
+    public void doJumpServerRpc()
+    {
+        JumpStarted();
+    }
+    [ServerRpc]
+    public void doDoubleJumpServerRpc()
+    {
+        DoubleJumpStarted();
+    }
+    [ClientRpc]
+    public void doJumpClientRpc()
+    {
+        JumpStarted();
+    }
+    [ClientRpc]
+    public void doDoubleJumpClientRpc()
+    {
+        DoubleJumpStarted();
+    }
     public float GetMaxSpeed()
     {
         return maxSpeed;

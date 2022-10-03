@@ -1,27 +1,29 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class ThirdPersonAnimation : MonoBehaviour
+public class ThirdPersonAnimation : NetworkBehaviour
 {
     [SerializeField]
     private ThirdPersonController ThirdPersonController;
     [SerializeField]
     private Animator modelAnimator;
 
-    private void OnEnable()
+    public override void OnNetworkSpawn()
     {
         ThirdPersonController.JumpStarted += handleJump;
         ThirdPersonController.DoubleJumpStarted += handleDoubleJump;
     }
-    private void OnDisable()
+    public override void OnNetworkDespawn()
     {
         ThirdPersonController.JumpStarted -= handleJump;
         ThirdPersonController.DoubleJumpStarted -= handleDoubleJump;
     }
     private void FixedUpdate()
     {
+        if (!IsOwner) return;
         modelAnimator.SetFloat("speed", ThirdPersonController.horizontalSpeed/ ThirdPersonController.GetMaxSpeed());
         modelAnimator.SetBool("isGround", ThirdPersonController.isGrounded);
     }
@@ -32,5 +34,6 @@ public class ThirdPersonAnimation : MonoBehaviour
     void handleDoubleJump()
     {
         modelAnimator.SetTrigger("doubleJumpGo");
+        Debug.Log("Double Jump called");
     }
 }

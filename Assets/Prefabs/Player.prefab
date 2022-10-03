@@ -890,7 +890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ThirdPersonController: {fileID: 1075150551765161881}
-  modelAnimator: {fileID: 8399617686675906527}
+  modelAnimator: {fileID: 6283447378563351668}
 --- !u!114 &1691825805197903073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1015,7 +1015,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2912831281829815950}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &8399617686675906527
+--- !u!95 &6283447378563351668
 Animator:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -1035,6 +1035,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2480914720759492738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2642800784966786015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bade61fdc96bb54eb2ca88b7e49a09a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 6283447378563351668}
 --- !u!4 &3451672540519448933 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bba5f9085051611418b7613b90a949ee,
