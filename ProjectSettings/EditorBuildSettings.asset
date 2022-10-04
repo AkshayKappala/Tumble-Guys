@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/_Relay Demo.unity
-    guid: c49f56428fd37cb48855a86d19a3fb51
+    path: Assets/Scenes/_Multiplayer Demo.unity
+    guid: db879f60161f91448ac9a5bcb509ce56
   m_configObjects: {}
