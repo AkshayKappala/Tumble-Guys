@@ -4,6 +4,6 @@ public class PerformanceManager : MonoBehaviour
 {
     private void Awake()
     {
-        Application.targetFrameRate = 300;
+        Application.targetFrameRate = 120;
     }
 }
