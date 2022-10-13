@@ -24,6 +24,8 @@ public class ThirdPersonController : NetworkBehaviour
     private float movementForce = 1f;
     [SerializeField]
     private float jumpForce = 5f;
+    //[SerializeField]
+    //private float HitForce = 10f;
     [SerializeField]
     private float maxSpeed = 5f;
     private Vector3 forceDirection = Vector3.zero;
@@ -146,6 +148,10 @@ public class ThirdPersonController : NetworkBehaviour
                 DoubleJumpStarted();
         }
     }
+    //private void receiveObstacleHit(Vector3 direction)
+    //{
+    //    forceDirection = direction.normalized * HitForce;
+    //}
     [ServerRpc]
     public void doJumpServerRpc()
     {
@@ -170,6 +176,10 @@ public class ThirdPersonController : NetworkBehaviour
     {
         return maxSpeed;
     }
+    //public void HitPlayer(Vector3 hitDirection)
+    //{
+    //    receiveObstacleHit(hitDirection);
+    //}
 }
 
 public enum CharacterState
